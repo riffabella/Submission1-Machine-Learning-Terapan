@@ -67,12 +67,16 @@ PlantVillage/
 ### Tahapan yang dilakukan untuk memahmi data 
 **EDA (_Exploratory Data Analysis_)**
 1. Menampilkan contoh 5 gambar tiap kelas
+
+![Image](https://github.com/user-attachments/assets/8143aa3c-25c6-4349-a17e-6cc9e0e3e796)
+  
 2. Menampilkan visualisasi distribusi jumlah gambar tiap kelas
 
 ```
 sns.countplot(x=labels)
 plt.title("Distribusi Gambar Tiap Kelas")
 ```
+![Image](https://github.com/user-attachments/assets/7831242b-4f5f-415e-bf33-606dca3e3dcb)
 
 ## Data Preparation
 - Data Balencing, dengan melakukan augmentasi pada data yang minoritas seperti kelas Potato_healthy agar seimbang dengan kelas lainnya. Diperlukan proses tersebut agar dapat memperbaiki kualitas distribusi data, dan mampu meningkatkan performa model terutama pada kelas minoritas.
