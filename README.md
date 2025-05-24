@@ -1,7 +1,7 @@
 # Laporan Proyek Machine Learning - Riffa Bella Wahyu S
 ## Domain Proyek 
   Kentang (_Solanum tuberosum_) merupakan salah satu komoditas hortikultura penting di Indonesia yang berperan sebagai sumber pangan dan pendapatan petani, khususnya di daerah dataran tinggi. Tanaman ini mengandung karbohidrat tinggi yang dibutuhkan manusia sebagai sumber energi utama. Namun, dalam pembudidayaannya, tanaman kentang rentan terhadap berbagai serangan penyakit, terutama yang menyerang bagian daun.
-  Dua jenis penyakit utama yang sering menyerang tanaman kentang adalah hawar daun (late blight) yang disebabkan oleh _Phytophthora infestans_ dan bercak kering (early blight) yang disebabkan oleh _Alternaria salani_. Kedua penyakit ini, kerap menyerang pada fase pertumbuhan vegetatif, yakni sekitar usia 5-6 minggu (Amatullah dkk., 2021). Penyakit ini, dapat menyebar cepat ke seluruh bagian tanaman termasuk batang dan umbi. Jika tidak ditangai secara dini, dapat menyebabkan kerusakan signifikan pada tanaman, mengurangi hasil panen, dan menimbulkan kerugian ekonomi bagi petani mencapai lebih dari 50% hasil panen (Maulana et al., 2024). 
+  Dua jenis penyakit utama yang sering menyerang tanaman kentang adalah hawar daun (late blight) yang disebabkan oleh _Phytophthora infestans_ dan bercak kering (early blight) yang disebabkan oleh _Alternaria salani_. Kedua penyakit ini, kerap menyerang pada fase pertumbuhan vegetatif, yakni sekitar usia 5-6 minggu. Penyakit ini, dapat menyebar cepat ke seluruh bagian tanaman termasuk batang dan umbi. Jika tidak ditangai secara dini, dapat menyebabkan kerusakan signifikan pada tanaman, mengurangi hasil panen, dan menimbulkan kerugian ekonomi bagi petani mencapai lebih dari 50% hasil panen (Maulana et al., 2024). 
   Deteksi dini terhadap penyakit ini sangat penting untuk mencegah penyebaran lebih lanjut dan mengurangi resiko kerugian. Namun, metode identifikasi penyakit secara manual oleh petani atau ahli pertanian membutuhkan pengalaman khusus, bersifat subjektif, serta tidak efisien ketika dilakukan pada skala pertanian yang luas (Prasetyo & Mahenra, 2025). Dengan perkembangan teknologi kecerdasan buatan (AI) dan deep learning saat ini, dapat memberikan peluang baru dalam pengembangan sistem deteksi penyakit tanaman berbasis citra. Salah satu pendekatan yang digunakan adalah penggunaan _Convolutional Neural Network_ (CNN), karena kemampuannya dalam mengenali pola visual dari gambar secara otomatis dan akurat.
   Proyek ini berujuan untuk mengembangkan sistem kalsifikasi yang mampu mempermudah pekerjaan petani dalam mendeteksi gejala penyakit kentang lewat citra daun kentang. Dengan melalui proses identifikasi, yang terbagi menjadi tiga kategori, yaitu _healthy_ (daun sehat), _early blight_ (bercak kering), dan _late blight_ (hawar daun). Dalam melakukan identifikasi terhadap penyakit pada daun tanaman kentang, proyek ini menggunakan Arsitektur pada CNN yaitu MobileNetV2 dan DenseNet dalam pengklasifikasian gambar untuk mendeteksi penyakit pada tanaman kentang. Data yang dipergunakan pada proyek ini diperoleh dari dataset PlantVillage yang tersedia di situs _Kaggle_. 
 
@@ -33,6 +33,16 @@ PlantVillage/
 ├── Potato___Late_Blight/         # Kumpulan gambar penyakit late blight (mentah)
 └── Potato___Healthy/             # Kumpulan gambar daun kentang sehat (mentah)
 ```
+
+**Jumlah Data Tiap Kelas (Sebelum Augmentasi untuk keperluan Balencing Data)**
+
+| Kelas           | Jumlah Gambar |
+|----------------|----------------|
+| Early Blight   | 1000           |
+| Late Blight    | 1000           |
+| Healthy        | 152            |
+| **Total**      | **2152**       |
+
 **Struktur Dataset Setelah diolah**
 ```
 PlantVillage/
@@ -49,11 +59,17 @@ PlantVillage/
 ### Variable-variabel pada Potato Disease sebagai berikut :
 - Image Data : berupa matrix pixel dari gambar dengan dimensi umumnya 256x256@ atau resize sesuai dengan kebutuhan model
 - Label : nama kelas dari masing-masing gambar yang menunjukkan kondisi daun kentang (early_blight, late_blight, healthy).
-- 
+- Fiename : nama file gambar, berguna untuk identifikasi dan mapping ke label.
+
 ### Tahapan yang dilakukan untuk memahmi data 
 **EDA (_Exploratory Data Analysis_)**
 1. Menampilkan contoh 5 gambar tiap kelas
 2. Menampilkan visualisasi distribusi jumlah gambar tiap kelas
+
+```
+sns.countplot(x=labels)
+plt.title("Distribusi Gambar Tiap Kelas")
+```
 
 ## Data Preparation
 - Data Balencing, dengan melakukan augmentasi pada data yang minoritas seperti kelas Potato_healthy agar seimbang dengan kelas lainnya. Diperlukan proses tersebut agar dapat memperbaiki kualitas distribusi data, dan mampu meningkatkan performa model terutama pada kelas minoritas.
@@ -100,7 +116,7 @@ augmentor = ImageDataGenerator(
 AUGMENT_PER_IMAGE = 3
 ```
 ## Modeling
-Dalam proyek ini, menggunakan dua algoritma untuk mendeteksi penyakit kentang berdasarkan daun, dengan mengklasifikasikan kondisi daun kentang menjadi tiga kelas, yaitu Early Blight, Late Blight, dan Sehat (Healthy). Untuk menyelesaikan permasalahan ini, digunakan pendekatan transfer learning dengan memanfaatkan dua arsitektur deep learning populer, yaitu **DenseNet201** dan **MobileNetV2** yang telah dilatih sebelumnya pada dataset ImageNet.
+Dalam proyek ini, menggunakan dua algoritma untuk mendeteksi penyakit kentang berdasarkan daun, dengan mengklasifikasikan kondisi daun kentang menjadi tiga kelas, yaitu **Early blight**, **Late blight**, dan **Healthy**. Untuk menyelesaikan permasalahan ini, digunakan pendekatan transfer learning dengan memanfaatkan dua arsitektur deep learning populer, yaitu **DenseNet201** dan **MobileNetV2** yang telah dilatih sebelumnya pada dataset ImageNet.
 
 **Tahapan Pemodelan**
 1. Pra-Pemrosesan Data
@@ -147,23 +163,23 @@ Dalam proyek ini, menggunakan dua algoritma untuk mendeteksi penyakit kentang be
 
 
 4. Model Terbaik
-Dari dua aristektur model CNN yang digunakan, Model MobileNetV2 menjadi model terbaik dan unggul dalam hal kestabilan, dan efisiensi. Sehingga model ini menjadi solusi terbaik untuk klasifikasi penyakit dun kentang . 
+Dari dua arsitektur model CNN yang digunakan, Model MobileNetV2 menjadi model terbaik dan unggul dalam hal kestabilan, dan efisiensi. Sehingga model ini menjadi solusi terbaik untuk klasifikasi penyakit daun kentang . 
  
 ## Evaluation
 Dalam proyek kalsifikasi citra penyakit kentang ini, digunakan beberapa metrik evaluasi untuk mengukur performa model yaitu:
-1. Accuarcy, digunakan untuk mengukur prediksi yang benar terhadap seluruh prediksi. Pada proyek ini, accuracy yang didapat pada model yang terbaik yaitu MobileNetV2 mencapai 97.31%. Yang menunjukkan bahwa model mampu mengklasifikasikan sebgaian besar gambar dengan benar. Berikut rumusnya:
+1. **Accuarcy**, digunakan untuk mengukur prediksi yang benar terhadap seluruh prediksi. Pada proyek ini, accuracy yang didapat pada model yang terbaik yaitu MobileNetV2 mencapai 97.31%. Yang menunjukkan bahwa model mampu mengklasifikasikan sebgaian besar gambar dengan benar. Berikut rumusnya:
 
 $$
 Accuracy = \frac{Jumlah Prediksi Benar}{Total Jumlah Prediksi}
 $$           
 
-2. Loss (_Categorical Crossentropy_), digunakan sebagai fungsi objektif, untuk klasifikasi multi-kelas. Bukan hanya itu loss ini juga penting untuk memandu proses pelatihan model dan membantu mencegah overfitting. Berikut rumusnya:
+2. **Loss (_Categorical Crossentropy_)**, digunakan sebagai fungsi objektif, untuk klasifikasi multi-kelas. Bukan hanya itu loss ini juga penting untuk memandu proses pelatihan model dan membantu mencegah overfitting. Berikut rumusnya:
 
 $$
 Loss = -\sum_{i=1}^{N} y_i \cdot \log(\hat{y}_i)
 $$
 
-3.Classification Report, digunakan untuk menghasilkan laporan berbentuk tabel yang mencakup metrik evaluasi penting untuk setiap kelas dalam masalah klasifikasi, yaitu:
+3.**Classification Report**, digunakan untuk menghasilkan laporan berbentuk tabel yang mencakup metrik evaluasi penting untuk setiap kelas dalam masalah klasifikasi, yaitu:
   - Precision, digunakan untuk mengukur ketepatan prediksi positif
 
 $$
@@ -183,7 +199,7 @@ F1 Score = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision
 $$
 
 Berikut ini Classification Report per model:
-### 📊 Classification Report (MobileNetV2)
+### 📊 Classification Report (DenseNet201)
 
 | Class                     | Precision | Recall | F1-Score | Support |
 |---------------------------|-----------|--------|----------|---------|
@@ -207,17 +223,23 @@ Berikut ini Classification Report per model:
 | **Weighted Avg**           | 0.9741    | 0.9731 | 0.9728   | 297     |
 
 
-4. Confussion Matrix, digunakan untuk menunjukkan jumlah prediksi benar dan salah untuk masing-masing kelas, membantu mengidentifikasi di mana model sering melakukan kesalahan klasifikasi.
+4. **Confusion Matrix**, digunakan untuk menunjukkan jumlah prediksi benar dan salah untuk masing-masing kelas, membantu mengidentifikasi di mana model sering melakukan kesalahan klasifikasi.
+- **Confusion Matrix (DenseNet201)**
+
+![Image](https://github.com/user-attachments/assets/bca194d9-75ec-4382-9b0b-88cfa4174faa)
+  
+- **Confusion Matrix (MobileNetV2)**
+
+![Image](https://github.com/user-attachments/assets/fb578b11-1ecb-4db7-8d1c-0de9a9ed9d90)
 
 ### Hasil Evaluasi 
-- Performa Model :
 
 | Model        | Training Accuracy | Validation Accuracy       | Final Loss    | Catatan             |
 |--------------|-------------------|--------------------------|---------------|---------------------|
-| DenseNet201  | 84.4%            | 97–98% (naik turun)     | Tidak stabil  | Cenderung overfitting|
-| MobileNetV2  | 99.6%            | 98.5% (stabil)          | Konsisten     | Generalisasi lebih baik |
+| DenseNet201  | 99.7%            | 98% (naik turun)     | Tidak stabil  | Cenderung overfitting|
+| MobileNetV2  | 98.5%            | 97.3% (stabil)          | Konsisten     | Generalisasi lebih baik |
 
-
+Berdasarkan hasil evaluasi, **MobileNetV2** menunjukkan performa klasifikasi yang lebih stabil dan mampu menghindari overfitting dibandingkan DenseNet201, menjadikannya pilihan model yang lebih optimal untuk digunakan dalam klasifikasi penyakit kentang ini.
 
 ## Referensi
 
