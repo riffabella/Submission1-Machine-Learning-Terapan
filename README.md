@@ -1,12 +1,12 @@
 # Laporan Proyek Machine Learning - Riffa Bella Wahyu S
 ## Domain Proyek 
-  Kentang (_Solanum tuberosum_) merupakan salah satu komoditas hortikultura penting di Indonesia yang berperan sebagai sumber pangan dan pendapatan petani, khususnya di daerah dataran tinggi. Tanaman ini mengandung karbohidrat tinggi yang dibutuhkan manusia sebagai sumber energi utama. Namun, dalam pembudidayaannya, tanaman kentang rentan terhadap berbagai serangan penyakit, terutama yang menyerang bagian daun.
+  Kentang (_Solanum tuberosum_) merupakan salah satu komoditas hortikultura penting di Indonesia yang berperan sebagai sumber pangan dan pendapatan petani, khususnya di daerah dataran tinggi. Tanaman ini mengandung karbohidrat tinggi yang dibutuhkan manusia sebagai sumber energi utama [1]. Namun, dalam pembudidayaannya, tanaman kentang rentan terhadap berbagai serangan penyakit, terutama yang menyerang bagian daun.
   
-  Dua jenis penyakit utama yang sering menyerang tanaman kentang adalah hawar daun (late blight) yang disebabkan oleh _Phytophthora infestans_ dan bercak kering (early blight) yang disebabkan oleh _Alternaria salani_. Kedua penyakit ini, kerap menyerang pada fase pertumbuhan vegetatif, yakni sekitar usia 5-6 minggu. Penyakit ini, dapat menyebar cepat ke seluruh bagian tanaman termasuk batang dan umbi. Jika tidak ditangai secara dini, dapat menyebabkan kerusakan signifikan pada tanaman, mengurangi hasil panen, dan menimbulkan kerugian ekonomi bagi petani mencapai lebih dari 50% hasil panen (Maulana et al., 2024). 
+  Dua jenis penyakit utama yang sering menyerang tanaman kentang adalah hawar daun (late blight) yang disebabkan oleh _Phytophthora infestans_ dan bercak kering (early blight) yang disebabkan oleh _Alternaria salani_. Kedua penyakit ini, kerap menyerang pada fase pertumbuhan vegetatif, yakni sekitar usia 5-6 minggu [2]. Penyakit ini, dapat menyebar cepat ke seluruh bagian tanaman termasuk batang dan umbi. Jika tidak ditangai secara dini, dapat menyebabkan kerusakan signifikan pada tanaman, mengurangi hasil panen, dan menimbulkan kerugian ekonomi bagi petani mencapai lebih dari 50% hasil panen [3]. 
   
-  Deteksi dini terhadap penyakit ini sangat penting untuk mencegah penyebaran lebih lanjut dan mengurangi resiko kerugian. Namun, metode identifikasi penyakit secara manual oleh petani atau ahli pertanian membutuhkan pengalaman khusus, bersifat subjektif, serta tidak efisien ketika dilakukan pada skala pertanian yang luas (Prasetyo & Mahenra, 2025). Dengan perkembangan teknologi kecerdasan buatan (AI) dan deep learning saat ini, dapat memberikan peluang baru dalam pengembangan sistem deteksi penyakit tanaman berbasis citra. Salah satu pendekatan yang digunakan adalah penggunaan _Convolutional Neural Network_ (CNN), karena kemampuannya dalam mengenali pola visual dari gambar secara otomatis dan akurat.
+  Deteksi dini terhadap penyakit ini sangat penting untuk mencegah penyebaran lebih lanjut dan mengurangi resiko kerugian. Namun, metode identifikasi penyakit secara manual oleh petani atau ahli pertanian membutuhkan pengalaman khusus, bersifat subjektif, serta tidak efisien ketika dilakukan pada skala pertanian yang luas [4]. Dengan perkembangan teknologi kecerdasan buatan (AI) dan deep learning saat ini, dapat memberikan peluang baru dalam pengembangan sistem deteksi penyakit tanaman berbasis citra. Salah satu pendekatan yang digunakan adalah penggunaan _Convolutional Neural Network_ (CNN), karena kemampuannya dalam mengenali pola visual dari gambar secara otomatis dan akurat.
   
-  Proyek ini berujuan untuk mengembangkan sistem kalsifikasi yang mampu mempermudah pekerjaan petani dalam mendeteksi gejala penyakit kentang lewat citra daun kentang. Dengan melalui proses identifikasi, yang terbagi menjadi tiga kategori, yaitu _healthy_ (daun sehat), _early blight_ (bercak kering), dan _late blight_ (hawar daun). Dalam melakukan identifikasi terhadap penyakit pada daun tanaman kentang, proyek ini menggunakan Arsitektur pada CNN yaitu MobileNetV2 dan DenseNet dalam pengklasifikasian gambar untuk mendeteksi penyakit pada tanaman kentang. Data yang dipergunakan pada proyek ini diperoleh dari dataset PlantVillage yang tersedia di situs _Kaggle_. 
+  Proyek ini bertujuan untuk mengembangkan sistem kalsifikasi yang mampu mempermudah pekerjaan petani dalam mendeteksi gejala penyakit kentang lewat citra daun kentang. Dengan melalui proses identifikasi, yang terbagi menjadi tiga kategori, yaitu _healthy_ (daun sehat), _early blight_ (bercak kering), dan _late blight_ (hawar daun). Dalam melakukan identifikasi terhadap penyakit pada daun tanaman kentang, proyek ini menggunakan Arsitektur pada CNN yaitu MobileNetV2 dan DenseNet dalam pengklasifikasian gambar untuk mendeteksi penyakit pada tanaman kentang. Data yang dipergunakan pada proyek ini diperoleh dari dataset PlantVillage yang tersedia di situs _Kaggle_. 
 
 ## Business Understanding
 
@@ -59,7 +59,7 @@ PlantVillage/
 └── Potato__healthy_augmented/       # Gambar daun kentang sehat (hasil augmentasi)
 ```
 
-### Variable-variabel pada Potato Disease sebagai berikut :
+### Variabel-variabel pada Potato Disease sebagai berikut :
 - Image Data : berupa matrix pixel dari gambar dengan dimensi umumnya 256x256@ atau resize sesuai dengan kebutuhan model
 - Label : nama kelas dari masing-masing gambar yang menunjukkan kondisi daun kentang (early_blight, late_blight, healthy).
 - Fiename : nama file gambar, berguna untuk identifikasi dan mapping ke label.
@@ -67,6 +67,24 @@ PlantVillage/
 ### Tahapan yang dilakukan untuk memahmi data 
 **EDA (_Exploratory Data Analysis_)**
 1. Menampilkan contoh 5 gambar tiap kelas
+
+```
+# Menampilkan 5 gambar acak dari setiap kelas
+fig, axs = plt.subplots(len(lung_image), 5, figsize=(15, 3 * len(lung_image)))
+
+for i, class_name in enumerate(lung_image.keys()):
+    images = np.random.choice(lung_image[class_name], 5, replace=False)
+
+    for j, image_name in enumerate(images):
+        img_path = os.path.join(path, class_name, image_name)
+        img = Image.open(img_path).convert("RGB")  # tampilkan dalam warna
+        axs[i, j].imshow(img)
+        axs[i, j].set(xlabel=class_name, xticks=[], yticks=[])
+
+fig.tight_layout()
+plt.show()
+
+```
 
 ![Image](https://github.com/user-attachments/assets/8143aa3c-25c6-4349-a17e-6cc9e0e3e796)
   
@@ -250,3 +268,10 @@ Berdasarkan hasil evaluasi, **MobileNetV2** menunjukkan performa klasifikasi yan
 
 ## Referensi
 
+[1] M. F. Nauval dan M. I. Habibie, "Implementasi Algoritma Convolutional Neural Network (CNN) dalam Mengidentifikasi Penyakit Daun Kentang Menggunakan Citra Digital", *Jurnal Teknologi dan Sistem Informasi*, vol. 4, no. 2, pp. 116–122, 2023.
+
+[2] N. Amatullah, R. Rizal, dan I. Irawan, "Identifikasi Penyakit Daun Kentang Berdasarkan Citra Digital Menggunakan Metode CNN (Convolutional Neural Network)", *Jurnal Riset Ilmu Komputer dan Aplikasinya (JRIKA)*, vol. 8, no. 1, pp. 73–79, 2023.
+
+[3] F. Maulana, A. Rachman, dan D. Wicaksono, "Analisis Dampak Penyakit Hawar Daun Terhadap Produksi Kentang di Dataran Tinggi Dieng", Jurnal Hortikultura Indonesia, vol. 12, no. 1, pp. 45–52, 2024.
+
+[4] B. Prasetyo dan R. Mahenra, "Efektivitas Deteksi Penyakit Tanaman Menggunakan Teknologi Citra Digital dan Deep Learning", Jurnal Teknologi Pertanian Terapan, vol. 9, no. 2, pp. 88–96, 2025.
