@@ -62,7 +62,7 @@ PlantVillage/
 ### Variabel-variabel pada Potato Disease sebagai berikut :
 - Image Data : berupa matrix pixel dari gambar dengan dimensi umumnya 256x256@ atau resize sesuai dengan kebutuhan model
 - Label : nama kelas dari masing-masing gambar yang menunjukkan kondisi daun kentang (early_blight, late_blight, healthy).
-- Fiename : nama file gambar, berguna untuk identifikasi dan mapping ke label.
+- Filename : nama file gambar, berguna untuk identifikasi dan mapping ke label.
 
 ### Tahapan yang dilakukan untuk memahmi data 
 **EDA (_Exploratory Data Analysis_)**
