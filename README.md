@@ -47,9 +47,7 @@ Pada proyek ini, data yang digunakan adalah _House Price Prediction Dataset_ yan
 **EDA (_Exploratory Data Analysis_)**
 1. Menampilkan Jumlah Baris dan Kolom serta Jenis Data setia Kolom
 
-```
-House.info()
-```
+    ```House.info()```
 
 ![Image](https://github.com/user-attachments/assets/8143aa3c-25c6-4349-a17e-6cc9e0e3e796)
   
