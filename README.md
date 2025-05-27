@@ -27,13 +27,13 @@ Tanpa sistem prediksi yang andal, pembeli dan penjual berisiko membuat keputusan
    Melakukan optimasi terhadap hyperparameter dengan GridSearchCV untuk meningkatkan akurasi prediksi dan mengurangi kesalahan prediksi maupun overfitting dalam pelatihan pertama.
    
 ## Data Understanding
-Pada proyek ini, data yang digunakan adalah _House House Prediction Dataset_ yang tersedia secara publik di[Kaggle](https://www.kaggle.com/datasets/zafarali27/house-price-prediction-dataset) Dengan informasi dataset sebagai berikut :
+Pada proyek ini, data yang digunakan adalah _House Price Prediction Dataset_ yang tersedia secara publik di[Kaggle](https://www.kaggle.com/datasets/zafarali27/house-price-prediction-dataset) Dengan informasi dataset sebagai berikut :
 1. Jumlah data : 2000 baris
 2. Jumlah fitur : 9 kolom (termasuk target)
 3. Tipe data : Numerik dan Kategorikal
 4. Target/Lable : Price (harga rumah)
 
-### Variabel-variabel pada Potato Disease sebagai berikut :
+### Variabel-variabel House Price Prediction pada sebagai berikut :
 - Area : Luas bangunan rumah (dalam persegi) yang merupakan salah satu faktor paling penting dalam memprediksi harga.
 - Badrooms dan Bathrooms : Jumlah kamar (kamar tidur dan kamat mandi) dalam sebuah rumah sangat mempengaruhi nilainya. Rumah dengan lebih banyak kamar cenderung memiliki harga yang lebih tinggi.
 - Floors : Jumlah lantai pada rumah dapat menunjukkan bahwa rumah tersebut lebih besar atau mewah, sehingga berpotensi meningkatkan harganya.
@@ -45,24 +45,10 @@ Pada proyek ini, data yang digunakan adalah _House House Prediction Dataset_ yan
 
 ### Tahapan yang dilakukan untuk memahmi data 
 **EDA (_Exploratory Data Analysis_)**
-1. Menampilkan contoh 5 gambar tiap kelas
+1. Menampilkan Jumlah Baris dan Kolom serta Jenis Data setia Kolom
 
 ```
-# Menampilkan 5 gambar acak dari setiap kelas
-fig, axs = plt.subplots(len(lung_image), 5, figsize=(15, 3 * len(lung_image)))
-
-for i, class_name in enumerate(lung_image.keys()):
-    images = np.random.choice(lung_image[class_name], 5, replace=False)
-
-    for j, image_name in enumerate(images):
-        img_path = os.path.join(path, class_name, image_name)
-        img = Image.open(img_path).convert("RGB")  # tampilkan dalam warna
-        axs[i, j].imshow(img)
-        axs[i, j].set(xlabel=class_name, xticks=[], yticks=[])
-
-fig.tight_layout()
-plt.show()
-
+House.info()
 ```
 
 ![Image](https://github.com/user-attachments/assets/8143aa3c-25c6-4349-a17e-6cc9e0e3e796)
