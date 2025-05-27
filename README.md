@@ -1,5 +1,5 @@
 # Laporan Proyek Machine Learning - Riffa Bella Wahyu S
-## Domain Proyek 
+## Domain Proyek - House Price Predictive
   Rumah merupakan kebutuhan dasar manusia yang tidak hanya berfungsi sebagai tempat tinggal, tetapi juga sebagai tempat berkumpul dan beristirahat[1]. Karena pentingnya fungsi rumah, banyak orang ingin membeli atau menjual properti, yang menuntut adanya penentuan harga rumah secara tepat[2].
 
 Menentukan harga rumah bukan hal mudah, karena dipengaruhi berbagai faktor seperti lokasi, luas tanah, jumlah kamar, dan fasilitas sekitar[3]. Penilaian secara manual sering memakan waktu, subjektif, dan rawan kesalahan. Untuk itu, dibutuhkan solusi berbasis teknologi yang cepat, akurat, dan objektif.
