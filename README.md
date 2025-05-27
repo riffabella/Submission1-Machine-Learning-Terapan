@@ -60,7 +60,7 @@ Pada proyek ini, data yang digunakan adalah _House Price Prediction Dataset_ yan
 5. Menampilkan visualisasi berdasarkan fitur Numerik dan Kategorikal
 
 - Fitur Kategorikal
-    - Fitur Location
+1. Fitur Location
 
 ```
 feature = categorical_features[0]
@@ -73,11 +73,10 @@ count.plot(kind='bar', title=feature);
 
 ![Image](https://github.com/user-attachments/assets/18166e0e-0051-43f7-8cdb-a1197f5bd8c3)
 
-
 Terdapat 4 kategori pada fitur Location, secara berurutan dari jumlah yang paling banyak yaitu: Downtown, Urban, Suburban, Rural. Dari data presentase dapat disimpulkan bahwa lebih dari 75% sampel merupakan rumah yang berada di lokasi Downtown, Urban, dan Suburban.
 
 
-    - Fitur Condition
+  2. Fitur Condition
 
 
 ```
@@ -95,7 +94,7 @@ count.plot(kind='bar', title=feature);
 Terdapat 4 kategori pada fitur Condition, secara berurutan dari jumlah yang paling banyak yaitu Fair, Excellent, Poor, dan Good. Dengan mayoritas rumah dalam sampel memiliki kondisi menengah ke atas yaitu Fair (26%).
 
 
-    - Fitur Garage
+  3. Fitur Garage
 
 
 ```
@@ -108,6 +107,7 @@ count.plot(kind='bar', title=feature);
 ```
 
 ![Image](https://github.com/user-attachments/assets/13e2521b-7d8a-48ca-951e-6a503d5e6d82)
+
 
 ```
 plt.figure(figsize=(6, 6))
@@ -160,7 +160,9 @@ House.head()
 
 - Splitting Data, dengan membagi dataset menjadi dua bagian menggunakan ```train_test_split```  yaitu 80% untuk data pelatihan dan 20% untuk data pengujian.
 
-```X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)```
+```
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
+```
 
 ![Image](https://github.com/user-attachments/assets/8146cd94-4176-480b-a6e6-a13987ffd31c)
 
@@ -175,7 +177,9 @@ Dalam proyek ini, digunakan dua algoritma untuk memprediksi harga rumah berdasar
 1. Pra-Pemrosesan Data
 - _Encoding Fitur Kategorikal_ : Menggunakan ```pd.get_dummies()``` untuk mengubah fitur kategorikal menjadi numerik.
 - _Standarisasi Fitur Numerik_: Menggunakan ```StandardScaler``` untuk menstandarisasi fitur numerik agar memiliki mean 0 dan standar deviasi 1.
-2.Pembagian Data, data dibagi menjadi data latih dan data uji dengan rasio 80:20 menggunakan ```train_test_split```
+
+2. Pembagian Data, data dibagi menjadi data latih dan data uji dengan rasio 80:20 menggunakan ```train_test_split```
+
 3. Pelatihan Model, masing-masing algoritma dilatih menggunakan data latih dan dievaluasi menggunakan data uji.
   
 **Parameter yang Digunakan**
@@ -193,7 +197,7 @@ Dalam proyek ini, digunakan dua algoritma untuk memprediksi harga rumah berdasar
   - ```random_state=55``` : digunakan untuk mengontrol random number generator yang digunakan.
 
 - **Tuning Hyperarameter:**
-  - Random Forest :
+**Random Forest:**
     
 ```
 # Definisikan parameter grid untuk Random Forest
@@ -204,8 +208,9 @@ rf_param_grid = {
     'min_samples_leaf': [5, 8, 10]
 }    
 ```
-    
-  - Gradient Boosting :
+
+**Gradient Boosting:**
+
     
 ```
 # Definisikan parameter grid untuk Gradient Boosting
@@ -227,9 +232,8 @@ gb_param_grid = {
 | **Random Forest**   | - Mengurangi overfitting dibandingkan pohon tunggal  <br> - Menangani fitur hilang dan variabel kategorikal  <br> - Estimasi fitur penting | - Kurang interpretatif  <br> - Konsumsi memori tinggi  <br> - Potensi overfit jika terlalu banyak pohon |
 | **Gradient Boosting** | - Akurasi prediksi tinggi  <br> - Fleksibel terhadap berbagai fungsi loss  <br> - Cocok untuk data kompleks            | - Rentan overfitting tanpa tuning  <br> - Latihannya lebih lambat  <br> - Perlu tuning parameter yang teliti |
 
-
-4. Model Terbaik
-Dari dua arsitektur model CNN yang digunakan, Model MobileNetV2 menjadi model terbaik dan unggul dalam hal kestabilan, dan efisiensi. Sehingga model ini menjadi solusi terbaik untuk klasifikasi penyakit daun kentang . 
+**Model Terbaik**
+Dari dua model algoritma ML yang telah dibangun, hingga dilakukan proses tuning hyerparameter dengan GridSearchCV, menghasilkan model terbaik dalam prediksi harga rumah yaitu pada model algoritma Gradient Boosting.  
  
 ## Evaluation
 Dalam proyek kalsifikasi citra penyakit kentang ini, digunakan beberapa metrik evaluasi untuk mengukur performa model yaitu:
