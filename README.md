@@ -1,10 +1,10 @@
 # Laporan Proyek Machine Learning - Riffa Bella Wahyu S
 ## Domain Proyek 
-  Rumah merupakan kebutuhan dasar manusia yang tidak hanya berfungsi sebagai tempat tinggal, tetapi juga sebagai tempat berkumpul dan beristirahat (Iskandar, 2020). Karena pentingnya fungsi rumah, banyak orang ingin membeli atau menjual properti, yang menuntut adanya penentuan harga rumah secara tepat.
+  Rumah merupakan kebutuhan dasar manusia yang tidak hanya berfungsi sebagai tempat tinggal, tetapi juga sebagai tempat berkumpul dan beristirahat[1]. Karena pentingnya fungsi rumah, banyak orang ingin membeli atau menjual properti, yang menuntut adanya penentuan harga rumah secara tepat[2].
 
-Menentukan harga rumah bukan hal mudah, karena dipengaruhi berbagai faktor seperti lokasi, luas tanah, jumlah kamar, dan fasilitas sekitar (Yuliani & Firmansyah, 2021). Penilaian secara manual sering memakan waktu, subjektif, dan rawan kesalahan. Untuk itu, dibutuhkan solusi berbasis teknologi yang cepat, akurat, dan objektif.
+Menentukan harga rumah bukan hal mudah, karena dipengaruhi berbagai faktor seperti lokasi, luas tanah, jumlah kamar, dan fasilitas sekitar[3]. Penilaian secara manual sering memakan waktu, subjektif, dan rawan kesalahan. Untuk itu, dibutuhkan solusi berbasis teknologi yang cepat, akurat, dan objektif.
 
-Machine learning telah terbukti mampu memprediksi harga rumah berdasarkan data historis dan atribut properti. Studi oleh Purwanto & Putra (2023) menunjukkan bahwa algoritma Random Forest memberikan hasil akurat dengan risiko overfitting rendah. Sementara itu, regresi linear dan ridge regression juga terbukti efektif dalam studi Abdurrahman & Kurniawan (2023).
+Machine learning telah terbukti mampu memprediksi harga rumah berdasarkan data historis dan atribut properti. Studi oleh Purwanto & Putra (2023) menunjukkan bahwa algoritma Random Forest memberikan hasil akurat dengan risiko overfitting rendah[4]. Sementara itu, regresi linear dan ridge regression juga terbukti efektif dalam studi Nuzuliarini (2024)[5].
 
 Tanpa sistem prediksi yang andal, pembeli dan penjual berisiko membuat keputusan yang salah. Oleh karena itu, proyek ini bertujuan membangun model prediksi harga rumah menggunakan algoritma K-Nearest Neighbor, Random Forest, dan Boosting, dengan evaluasi pada dataset dari [Kaggle](https://www.kaggle.com/datasets/zafarali27/house-price-prediction-dataset/data), yang digunakan untuk membandingkan kinerja perfoma ketiga algoritma ML dalam memprediksi harga rumah, sesuai dengan fitur yang telah disediakan.
 
@@ -233,90 +233,62 @@ gb_param_grid = {
 | **Gradient Boosting** | - Akurasi prediksi tinggi  <br> - Fleksibel terhadap berbagai fungsi loss  <br> - Cocok untuk data kompleks            | - Rentan overfitting tanpa tuning  <br> - Latihannya lebih lambat  <br> - Perlu tuning parameter yang teliti |
 
 **Model Terbaik**
-Dari dua model algoritma ML yang telah dibangun, hingga dilakukan proses tuning hyerparameter dengan GridSearchCV, menghasilkan model terbaik dalam prediksi harga rumah yaitu pada model algoritma Gradient Boosting.  
+Dari dua model algoritma ML yang telah dibangun, hingga dilakukan proses tuning hyerparameter dengan GridSearchCV, menghasilkan model yang cukup baik dalam prediksi harga rumah yaitu pada model algoritma Gradient Boosting.  
  
 ## Evaluation
-Dalam proyek kalsifikasi citra penyakit kentang ini, digunakan beberapa metrik evaluasi untuk mengukur performa model yaitu:
-1. **Accuarcy**, digunakan untuk mengukur prediksi yang benar terhadap seluruh prediksi. Pada proyek ini, accuracy yang didapat pada model yang terbaik yaitu MobileNetV2 mencapai 97.31%. Yang menunjukkan bahwa model mampu mengklasifikasikan sebgaian besar gambar dengan benar. Berikut rumusnya:
+Dalam proyek ini, menggunakan tiga metriks evaluasi untuk mengukur kinerja model seperti Mean Absolute Error (MAE), Mean Squared Error (MSE), dan R^2 Score. Metrik ini dipilih untuk mengevaluasi performa model Random Forest dan Gradient Boosting dalam memprediksi harga rumah berdasarkan data yang diberikan. 
+1. **MAE**, dipilih karena memberikan gambaran rkesalahan rata-rata dalam dolar, yang mudah diinterpretasikan dan relevan untuk mengatasi prediksi subjektif yang rawan kesalahan. Sehingga dapat mengukur rata-rata kesalahan absolut antara nilai prediksi dan nilai aktual. Semakin kecil nilai MAE, semakin baik performa model. Berikut formulanya:
 
-$$
-Accuracy = \frac{Jumlah Prediksi Benar}{Total Jumlah Prediksi}
-$$           
+$$ MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i| $$
+   
+2. **MSE**, digunakan untuk menghitung rata-rata kuadrat dari selisih antara nilai prediksi dan aktual. MSE memberi penalti lebih besar pada kesalahan besar. Sehingga membantu mendeteksi kesalahan besar dan selaras dengan proses tuning hyperparameter menggunakan GridSearchCV, serta cocok untuk mengevaluasi model dalam konteks data yang kompleks. Nilai yang lebih kecil menunjukkan model lebih baik. Berikut formulanya:
 
-2. **Loss (_Categorical Crossentropy_)**, digunakan sebagai fungsi objektif, untuk klasifikasi multi-kelas. Bukan hanya itu loss ini juga penting untuk memandu proses pelatihan model dan membantu mencegah overfitting. Berikut rumusnya:
+$$ MSE = \frac{1}{n} \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2 $$   
+   
+3. **R^2**, digunakan untuk mengukur proporsi variasi pada target (harga rumah) yang dapat dijelaskan oleh fitur. Nilai R² mendekati 1 menunjukkan model sangat baik, sedangkan nilai negatif menunjukkan kinerja yang lebih buruk daripada model rata-rata. Sehingga mampu menunjukkan seberapa baik model menangkap hubungan kompleks antara fitur dan harga rumah, serta memastikan model lebih efisien dan objektif dibandingkan metode manual. Berikut formulanya:
 
-$$
-Loss = -\sum_{i=1}^{N} y_i \cdot \log(\hat{y}_i)
-$$
-
-3.**Classification Report**, digunakan untuk menghasilkan laporan berbentuk tabel yang mencakup metrik evaluasi penting untuk setiap kelas dalam masalah klasifikasi, yaitu:
-  - Precision, digunakan untuk mengukur ketepatan prediksi positif
-
-$$
-Precision = \frac{\text{True Positive}}{\text{True Positive} + \text{False Positive}}
-$$
-
-  - Recall, digunakan untuk mengukur seberapa baik model menemukan seluruh kasus positif
-
-$$
-Recall = \frac{\text{True Positive}}{\text{True Positive} + \text{False Negative}}
-$$
-
-  - F1-Score, digunakan untuk menghitung rata-rata dari precision dan recall
-
-$$
-F1 Score = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
-$$
-
-Berikut ini Classification Report per model:
-### 📊 Classification Report (DenseNet201)
-
-| Class                     | Precision | Recall | F1-Score | Support |
-|---------------------------|-----------|--------|----------|---------|
-| Potato___Early_blight     | 0.95      | 1.00   | 0.98     | 100     |
-| Potato___Late_blight      | 1.00      | 0.95   | 0.97     | 100     |
-| Potato__healthy_augmented| 1.00      | 1.00   | 1.00     | 97      |
-| **Accuracy**              |           |        | **0.98** | **297** |
-| **Macro avg**             | 0.98      | 0.98   | 0.98     | 297     |
-| **Weighted avg**          | 0.98      | 0.98   | 0.98     | 297     |
-
-### 📊 Classification Report (MobileNetV2)
-
-| Class                      | Precision | Recall | F1-Score | Support |
-|----------------------------|-----------|--------|----------|---------|
-| Potato___Early_blight      | 0.9615    | 1.0000 | 0.9804   | 100     |
-| Potato___Late_blight       | 1.0000    | 0.9200 | 0.9583   | 100     |
-| Potato__healthy_augmented | 0.9604    | 1.0000 | 0.9798   | 97      |
-|                            |           |        |          |         |
-| **Accuracy**               |           |        | **0.9731** | 297   |
-| **Macro Avg**              | 0.9740    | 0.9733 | 0.9728   | 297     |
-| **Weighted Avg**           | 0.9741    | 0.9731 | 0.9728   | 297     |
+$$ R^2 = 1 - \frac{\sum{(y_i - \hat{y}_i)^2}}{\sum{(y_i - \bar{y})^2}} $$
 
 
-4. **Confusion Matrix**, digunakan untuk menunjukkan jumlah prediksi benar dan salah untuk masing-masing kelas, membantu mengidentifikasi di mana model sering melakukan kesalahan klasifikasi.
-- **Confusion Matrix (DenseNet201)**
+### Hasil Proyek Setelah Melakukan Tuning Hyperparameter
 
-![Image](https://github.com/user-attachments/assets/bca194d9-75ec-4382-9b0b-88cfa4174faa)
+**Visualisasi yang dihasilkan**
+
+![Image](https://github.com/user-attachments/assets/e4da1505-cf63-49db-a35a-704767a5525b)
+
+Diagram berikut memperlihatkan perbandingan Mean Squared Error (MSE) antara dua model yang telah dilakukan tuning, yaitu Random Forest (RF) dan Gradient Boosting (Boosting).
+
+- **Sumbu X**: Nilai MSE (semakin kecil semakin baik)
+- **Sumbu Y**: Model
+- **Biru**: MSE pada data training
+- **Oranye**: MSE pada data testing
+
+**Insight:**
+- Boosting memiliki MSE yang sedikit lebih rendah dibanding RF, baik di train maupun test set.
+- Perbedaan MSE train dan test relatif kecil, menunjukkan overfitting tidak terlalu parah.
+- Namun, berdasarkan R² yang negatif, kedua model masih belum mampu memodelkan variansi target secara baik.
+
+Sehingga Boosting (Algoritma Gradient Boosting) menunjukkan performa sedikit lebih baik dari RF, namun masih perlu perbaikan model atau fitur.
+
+**Hasil Metriks Evaluasi**
+
+| Model    | MSE          | RMSE      | MAE       | R²    |
+| -------- | ------------ | --------- | --------- | ----- |
+| RF       | 7.924159e+10 | 281498.83 | 244792.79 | -0.02 |
+| Boosting | 7.824462e+10 | 279722.40 | 243382.47 | -0.01 |
+
+
+**Penjelasan Hasil Metriks Evaluasi** :
+- MSE (Mean Squared Error) : Boosting memiliki MSE sedikit lebih rendah dibandingkan RF (selisih ~0.1 miliar), menunjukkan bahwa Boosting sedikit lebih baik dalam mengurangi kesalahan kuadrat rata-rata.
+- MAE (Mean Absolute Error) : Boosting memiliki MAE sedikit lebih rendah, artinya prediksinya sedikit lebih dekat ke nilai sebenarnya dibanding RF.
+- R2 Score : Kedua model bernilai negatif, menunjukkan model tidak cocok dan lebih buruk dari rata-rata.
   
-- **Confusion Matrix (MobileNetV2)**
-
-![Image](https://github.com/user-attachments/assets/fb578b11-1ecb-4db7-8d1c-0de9a9ed9d90)
-
-### Hasil Evaluasi 
-
-| Model        | Training Accuracy | Validation Accuracy       | Final Loss    | Catatan             |
-|--------------|-------------------|--------------------------|---------------|---------------------|
-| DenseNet201  | 99.7%            | 98% (naik turun)     | Tidak stabil  | Cenderung overfitting|
-| MobileNetV2  | 98.5%            | 97.3% (stabil)          | Konsisten     | Generalisasi lebih baik |
-
-Berdasarkan hasil evaluasi, **MobileNetV2** menunjukkan performa klasifikasi yang lebih stabil dan mampu menghindari overfitting dibandingkan DenseNet201, menjadikannya pilihan model yang lebih optimal untuk digunakan dalam klasifikasi penyakit kentang ini.
+Berdasarkan hasil evaluasi, **Algoritma Gradient Boosting ** sedikit lebih baik dalam MSE, dan MAE, keduanya masih buruk karena nilai R² negatif. Ini menunjukkan bahwa model belum berhasil memprediksi harga rumah secara efektif, dan perbaikan seperti feature engineering atau tuning lebih lanjut sangat disarankan.
 
 ## Referensi
 
-[1] M. F. Nauval dan M. I. Habibie, "Implementasi Algoritma Convolutional Neural Network (CNN) dalam Mengidentifikasi Penyakit Daun Kentang Menggunakan Citra Digital", *Jurnal Teknologi dan Sistem Informasi*, vol. 4, no. 2, pp. 116–122, 2023.
-
-[2] N. Amatullah, R. Rizal, dan I. Irawan, "Identifikasi Penyakit Daun Kentang Berdasarkan Citra Digital Menggunakan Metode CNN (Convolutional Neural Network)", *Jurnal Riset Ilmu Komputer dan Aplikasinya (JRIKA)*, vol. 8, no. 1, pp. 73–79, 2023.
-
-[3] F. Maulana, A. Rachman, dan D. Wicaksono, "Analisis Dampak Penyakit Hawar Daun Terhadap Produksi Kentang di Dataran Tinggi Dieng", Jurnal Hortikultura Indonesia, vol. 12, no. 1, pp. 45–52, 2024.
-
-[4] B. Prasetyo dan R. Mahenra, "Efektivitas Deteksi Penyakit Tanaman Menggunakan Teknologi Citra Digital dan Deep Learning", Jurnal Teknologi Pertanian Terapan, vol. 9, no. 2, pp. 88–96, 2025.
+[1] A. Iskandar, “Fungsi Rumah dalam Kehidupan Manusia Modern,” Jurnal Sosial dan Kemanusiaan, vol. 15, no. 2, pp. 100–110, 2020.
+[2] N. Hadi and J. Benedict, “Implementasi Machine Learning untuk Prediksi Harga Rumah Menggunakan Algoritma Random Forest,” Computer: Jurnal Computer Science and Information Systems, vol. 8, no. 1, pp. 50–61, 2024.
+[3] T. Yuliani and R. Firmansyah, “Faktor-Faktor yang Mempengaruhi Harga Properti,” Jurnal Ekonomi dan Bisnis, vol. 9, no. 1, pp. 25–34, 2021.
+[4] D. Purwanto and R. Putra, “Prediksi Harga Rumah dengan Random Forest,” Jurnal Teknologi Informasi, vol. 12, no. 1, pp. 45–55, 2023.
+[5] N. Nuris, “Analisis Prediksi Harga Rumah pada Machine Learning Menggunakan Metode Regresi Linear,” EXPLORE, vol. 14, no. 2, pp. 1–10, 2024.
