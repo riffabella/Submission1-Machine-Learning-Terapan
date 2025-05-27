@@ -48,16 +48,18 @@ Pada proyek ini, data yang digunakan adalah _House Price Prediction Dataset_ yan
 1. Menampilkan Jumlah Baris dan Kolom serta Jenis Data setiap Kolom
     ```House.info()```
    Terlihat dibawah ini, bahwa terdapat 7 kolom numerikal, dan 3 kolom kategorikal dibawah ini
+   
    ![Image](https://github.com/user-attachments/assets/f560b79f-4fa6-490d-b700-36ea8b8a0c12)
   
-2. Memeriksa jumlah nilai yang hilang di setiap kolom
+3. Memeriksa jumlah nilai yang hilang di setiap kolom
    ```print(House.isnull().sum())```
-   Terlihat dibawah ini, bahwa tidak ada nilai yang hilang pada setiap kolom 
+   Terlihat dibawah ini, bahwa tidak ada nilai yang hilang pada setiap kolom
+   
    ![Image](https://github.com/user-attachments/assets/d6e74a66-5954-4ac3-a528-96084721ae70)
    
-3. Menampilkan visualisasi berdasarkan fitur Numerik dan Kategorikal
-   - Fitur Kategorikal
-     - Fitur Location
+5. Menampilkan visualisasi berdasarkan fitur Numerik dan Kategorikal
+- Fitur Kategorikal
+    - Fitur Location
 ```
 feature = categorical_features[0]
 count = House[feature].value_counts()
@@ -66,10 +68,12 @@ df = pd.DataFrame({'jumlah sampel':count, 'persentase':percent.round(1)})
 print(df)
 count.plot(kind='bar', title=feature);
 ```
-![Image](https://github.com/user-attachments/assets/0bf9e89f-8934-48b2-af00-1b0ad1bc0d84)
+
+![Image](https://github.com/user-attachments/assets/18166e0e-0051-43f7-8cdb-a1197f5bd8c3)
+
 Terdapat 4 kategori pada fitur Location, secara berurutan dari jumlah yang paling banyak yaitu: Downtown, Urban, Suburban, Rural. Dari data presentase dapat disimpulkan bahwa lebih dari 75% sampel merupakan rumah yang berada di lokasi Downtown, Urban, dan Suburban.
 
-     - Fitur Condition
+    - Fitur Condition
 ```
 feature = categorical_features[1]
 count = House[feature].value_counts()
@@ -78,7 +82,8 @@ df = pd.DataFrame({'jumlah sampel':count, 'persentase':percent.round(1)})
 print(df)
 count.plot(kind='bar', title=feature);
 ```
-![Image](https://github.com/user-attachments/assets/1c3bb4e3-a2aa-41d8-9d2c-e886642f9b41)
+![Image](https://github.com/user-attachments/assets/c4e63a5c-399a-4bf8-a877-4053f538cb75)
+
 Terdapat 4 kategori pada fitur Condition, secara berurutan dari jumlah yang paling banyak yaitu Fair, Excellent, Poor, dan Good. Dengan mayoritas rumah dalam sampel memiliki kondisi menengah ke atas yaitu Fair (26%).
 
      - Fitur Garage
@@ -90,10 +95,25 @@ df = pd.DataFrame({'jumlah sampel':count, 'persentase':percent.round(1)})
 print(df)
 count.plot(kind='bar', title=feature);
 ```
-   - Fitur Numerik
+![Image](https://github.com/user-attachments/assets/13e2521b-7d8a-48ca-951e-6a503d5e6d82)
+
 ```
-sns.countplot(x=labels)
-plt.title("Distribusi Gambar Tiap Kelas")
+plt.figure(figsize=(6, 6))
+House['Garage'].value_counts().plot(kind='pie', autopct='%1.1f%%', colors=['lightgreen','lightcoral'])
+plt.title('Distribusi Garage')
+plt.ylabel('')  # Menghilangkan label default
+plt.show()
+```
+![Image](https://github.com/user-attachments/assets/6c26b9c0-064c-4189-93c4-c7483a1ed34d)
+
+Terdapat 2 kategori pada fitur Garage, secara berurutan dari jumlah yang paling banyak yaitu No, dan Yes. Dengan mayoritas rumah pada sampel tidak memiliki garansi didalamnya.
+
+   - Fitur Numerik
+     Terdiri dari fitur Id, Area, Bedrooms, Bathrooms, Floors, YearBuilt, dan Price
+     
+```
+House.hist(bins=50, figsize=(20,15))
+plt.show()
 ```
 ![Image](https://github.com/user-attachments/assets/7831242b-4f5f-415e-bf33-606dca3e3dcb)
 
