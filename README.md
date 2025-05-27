@@ -29,7 +29,7 @@ Tanpa sistem prediksi yang andal, pembeli dan penjual berisiko membuat keputusan
 ## Data Understanding
 Pada proyek ini, data yang digunakan adalah _House Price Prediction Dataset_ yang tersedia secara publik di[Kaggle](https://www.kaggle.com/datasets/zafarali27/house-price-prediction-dataset) Dengan informasi dataset sebagai berikut :
 1. Jumlah data : 2000 baris
-2. Jumlah fitur : 9 kolom (termasuk target)
+2. Jumlah fitur : 10 kolom (termasuk target)
 3. Tipe data : Numerik dan Kategorikal
 4. Target/Lable : Price (harga rumah)
 
@@ -43,16 +43,54 @@ Pada proyek ini, data yang digunakan adalah _House Price Prediction Dataset_ yan
 - Garage : Ketersediaan garansi dapat meningkatkan harga rumah karena memberikan kenyamanan dan ruang tambahan
 - Price : Variabel target, yaitu harga jual rumah, yang digunakan untuk melatih model machine learning agar dapat memprediksi harga rumah berdasarkan fitur-fitur lainnya.
 
-### Tahapan yang dilakukan untuk memahmi data 
+### Tahapan yang dilakukan untuk memahami data 
 **EDA (_Exploratory Data Analysis_)**
-1. Menampilkan Jumlah Baris dan Kolom serta Jenis Data setia Kolom
-
+1. Menampilkan Jumlah Baris dan Kolom serta Jenis Data setiap Kolom
     ```House.info()```
-
-![Image](https://github.com/user-attachments/assets/8143aa3c-25c6-4349-a17e-6cc9e0e3e796)
+   Terlihat dibawah ini, bahwa terdapat 7 kolom numerikal, dan 3 kolom kategorikal dibawah ini
+   ![Image](https://github.com/user-attachments/assets/f560b79f-4fa6-490d-b700-36ea8b8a0c12)
   
-2. Menampilkan visualisasi distribusi jumlah gambar tiap kelas
+2. Memeriksa jumlah nilai yang hilang di setiap kolom
+   ```print(House.isnull().sum())```
+   Terlihat dibawah ini, bahwa tidak ada nilai yang hilang pada setiap kolom 
+   ![Image](https://github.com/user-attachments/assets/d6e74a66-5954-4ac3-a528-96084721ae70)
+   
+3. Menampilkan visualisasi berdasarkan fitur Numerik dan Kategorikal
+   - Fitur Kategorikal
+     - Fitur Location
+```
+feature = categorical_features[0]
+count = House[feature].value_counts()
+percent = 100*House[feature].value_counts(normalize=True)
+df = pd.DataFrame({'jumlah sampel':count, 'persentase':percent.round(1)})
+print(df)
+count.plot(kind='bar', title=feature);
+```
+![Image](https://github.com/user-attachments/assets/0bf9e89f-8934-48b2-af00-1b0ad1bc0d84)
+Terdapat 4 kategori pada fitur Location, secara berurutan dari jumlah yang paling banyak yaitu: Downtown, Urban, Suburban, Rural. Dari data presentase dapat disimpulkan bahwa lebih dari 75% sampel merupakan rumah yang berada di lokasi Downtown, Urban, dan Suburban.
 
+     - Fitur Condition
+```
+feature = categorical_features[1]
+count = House[feature].value_counts()
+percent = 100*House[feature].value_counts(normalize=True)
+df = pd.DataFrame({'jumlah sampel':count, 'persentase':percent.round(1)})
+print(df)
+count.plot(kind='bar', title=feature);
+```
+![Image](https://github.com/user-attachments/assets/1c3bb4e3-a2aa-41d8-9d2c-e886642f9b41)
+Terdapat 4 kategori pada fitur Condition, secara berurutan dari jumlah yang paling banyak yaitu Fair, Excellent, Poor, dan Good. Dengan mayoritas rumah dalam sampel memiliki kondisi menengah ke atas yaitu Fair (26%).
+
+     - Fitur Garage
+```
+feature = categorical_features[2]
+count = House[feature].value_counts()
+percent = 100*House[feature].value_counts(normalize=True)
+df = pd.DataFrame({'jumlah sampel':count, 'persentase':percent.round(1)})
+print(df)
+count.plot(kind='bar', title=feature);
+```
+   - Fitur Numerik
 ```
 sns.countplot(x=labels)
 plt.title("Distribusi Gambar Tiap Kelas")
