@@ -288,7 +288,11 @@ Berdasarkan hasil evaluasi, **Algoritma Gradient Boosting** sedikit lebih baik d
 ## Referensi
 
 [1] A. Iskandar, “Fungsi Rumah dalam Kehidupan Manusia Modern,” Jurnal Sosial dan Kemanusiaan, vol. 15, no. 2, pp. 100–110, 2020.
+
 [2] N. Hadi and J. Benedict, “Implementasi Machine Learning untuk Prediksi Harga Rumah Menggunakan Algoritma Random Forest,” Computer: Jurnal Computer Science and Information Systems, vol. 8, no. 1, pp. 50–61, 2024.
+
 [3] T. Yuliani and R. Firmansyah, “Faktor-Faktor yang Mempengaruhi Harga Properti,” Jurnal Ekonomi dan Bisnis, vol. 9, no. 1, pp. 25–34, 2021.
+
 [4] D. Purwanto and R. Putra, “Prediksi Harga Rumah dengan Random Forest,” Jurnal Teknologi Informasi, vol. 12, no. 1, pp. 45–55, 2023.
+
 [5] N. Nuris, “Analisis Prediksi Harga Rumah pada Machine Learning Menggunakan Metode Regresi Linear,” EXPLORE, vol. 14, no. 2, pp. 1–10, 2024.
