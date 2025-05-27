@@ -1,68 +1,47 @@
 # Laporan Proyek Machine Learning - Riffa Bella Wahyu S
 ## Domain Proyek 
-  Kentang (_Solanum tuberosum_) merupakan salah satu komoditas hortikultura penting di Indonesia yang berperan sebagai sumber pangan dan pendapatan petani, khususnya di daerah dataran tinggi. Tanaman ini mengandung karbohidrat tinggi yang dibutuhkan manusia sebagai sumber energi utama [1]. Namun, dalam pembudidayaannya, tanaman kentang rentan terhadap berbagai serangan penyakit, terutama yang menyerang bagian daun.
-  
-  Dua jenis penyakit utama yang sering menyerang tanaman kentang adalah hawar daun (late blight) yang disebabkan oleh _Phytophthora infestans_ dan bercak kering (early blight) yang disebabkan oleh _Alternaria salani_. Kedua penyakit ini, kerap menyerang pada fase pertumbuhan vegetatif, yakni sekitar usia 5-6 minggu [2]. Penyakit ini, dapat menyebar cepat ke seluruh bagian tanaman termasuk batang dan umbi. Jika tidak ditangai secara dini, dapat menyebabkan kerusakan signifikan pada tanaman, mengurangi hasil panen, dan menimbulkan kerugian ekonomi bagi petani mencapai lebih dari 50% hasil panen [3]. 
-  
-  Deteksi dini terhadap penyakit ini sangat penting untuk mencegah penyebaran lebih lanjut dan mengurangi resiko kerugian. Namun, metode identifikasi penyakit secara manual oleh petani atau ahli pertanian membutuhkan pengalaman khusus, bersifat subjektif, serta tidak efisien ketika dilakukan pada skala pertanian yang luas [4]. Dengan perkembangan teknologi kecerdasan buatan (AI) dan deep learning saat ini, dapat memberikan peluang baru dalam pengembangan sistem deteksi penyakit tanaman berbasis citra. Salah satu pendekatan yang digunakan adalah penggunaan _Convolutional Neural Network_ (CNN), karena kemampuannya dalam mengenali pola visual dari gambar secara otomatis dan akurat.
-  
-  Proyek ini bertujuan untuk mengembangkan sistem kalsifikasi yang mampu mempermudah pekerjaan petani dalam mendeteksi gejala penyakit kentang lewat citra daun kentang. Dengan melalui proses identifikasi, yang terbagi menjadi tiga kategori, yaitu _healthy_ (daun sehat), _early blight_ (bercak kering), dan _late blight_ (hawar daun). Dalam melakukan identifikasi terhadap penyakit pada daun tanaman kentang, proyek ini menggunakan Arsitektur pada CNN yaitu MobileNetV2 dan DenseNet dalam pengklasifikasian gambar untuk mendeteksi penyakit pada tanaman kentang. Data yang dipergunakan pada proyek ini diperoleh dari dataset PlantVillage yang tersedia di situs _Kaggle_. 
+  Rumah merupakan kebutuhan dasar manusia yang tidak hanya berfungsi sebagai tempat tinggal, tetapi juga sebagai tempat berkumpul dan beristirahat (Iskandar, 2020). Karena pentingnya fungsi rumah, banyak orang ingin membeli atau menjual properti, yang menuntut adanya penentuan harga rumah secara tepat.
+
+Menentukan harga rumah bukan hal mudah, karena dipengaruhi berbagai faktor seperti lokasi, luas tanah, jumlah kamar, dan fasilitas sekitar (Yuliani & Firmansyah, 2021). Penilaian secara manual sering memakan waktu, subjektif, dan rawan kesalahan. Untuk itu, dibutuhkan solusi berbasis teknologi yang cepat, akurat, dan objektif.
+
+Machine learning telah terbukti mampu memprediksi harga rumah berdasarkan data historis dan atribut properti. Studi oleh Purwanto & Putra (2023) menunjukkan bahwa algoritma Random Forest memberikan hasil akurat dengan risiko overfitting rendah. Sementara itu, regresi linear dan ridge regression juga terbukti efektif dalam studi Abdurrahman & Kurniawan (2023).
+
+Tanpa sistem prediksi yang andal, pembeli dan penjual berisiko membuat keputusan yang salah. Oleh karena itu, proyek ini bertujuan membangun model prediksi harga rumah menggunakan algoritma K-Nearest Neighbor, Random Forest, dan Boosting, dengan evaluasi pada dataset dari [Kaggle](https://www.kaggle.com/datasets/zafarali27/house-price-prediction-dataset/data), yang digunakan untuk membandingkan kinerja perfoma ketiga algoritma ML dalam memprediksi harga rumah, sesuai dengan fitur yang telah disediakan.
 
 ## Business Understanding
 
 ### Problem Statements
 1. **Pernyataan Masalah 1**
-   Petani kesulitan dalam mengidentifikasi penyakit _Early Blight_ dan _Late Blight_ pada tanaman kentang secara akurat dan cepat karena gejala awal penyakit ini memiliki kemiripan visual yang membingungkan.
+   Penentuan harga rumah masih sering dilakukan secara manual, yang bersifat subjektif dan kurang efisien, sehingga rawan menyebabkan kesalahan dalam memprediksi harga rumah.
 2. **Pernyataan Masalah 2**
-   Proses identifikasi penyakit secara manual oleh petani bersifat subjektif, memerlukan keahlian khusus, dan tidak dapat dilakukan secara skala besar dalam waktu singkat.
+   Harga rumah dipengaruhi oleh banyak faktor, seperti lokasi, luas bangunan, jumlah kamar, dan fasilitas di sekitarnya, yang membuat proses estimasi harga menjadi kompleks jika tidak dibantu teknologi.
 
 ### Goals
-1. Mengembangkan sistem klasifikasi otomatis berbasis gambar daun kentang untuk membedakan antara potato___early_blight, potato___late_blight, dan potato___healthy dengan tingkat akurasi tinggi
-2. Membangun model deep learning (CNN) yang dapat mengidentifikasi penyakit daun secara konsisten dan objektif tanpa ketergantungan pada keahlian pengguna.
+1. Membangun model machine learning untuk memprediksi harga rumah berdasarkan fitur-fitur seperti lokasi, luas, jumlah kamar, dan atribut lainnya yang tersedia dalam dataset.
+2. Mengevaluasi dan membandingkan performa beberapa algoritma machine learning dalam hal akurasi prediksi harga rumah.
+
 ### Solution Statement
-1. **Solusi 1 : Penerapan dua arsitektur _Convolutional Neural Network_ (CNN)**
-   Dengan membangun model CNN menggunakan arsitektur seperti MobileNet dan DenseNet, yang cocok untuk image classification, sehingga mampu membandingkan kinerja dua model untuk mendapatkan akurasi yang baik dalam mendeteksi penyakit kentang berdasarkan daunnya.
-2. **Solusi 2 : Penerapan Hyperparameter Tuning, Augmentasi Data, dan Fine Tuning**
-   Melakukan optimasi terhadap hyperparameter seperti learning rate, batch size, dan jumlah epoch untuk meningkatkan akurasi model. Augmentasi data dilakukan untuk memperkaya data latih dan meningkatkan generalisasi model. Serta fine-tuning dilakukan untuk menyesuaikan dan mengoptimalkan model deep learning agar berkeja lebih baik pada task atau dataset spesifik yang baru. 
+1. **Solusi 1 : Penerapan Algoritma Machine Learning**
+   Dengan membangun model ML menggunakan algoritma Random Forest, dan Boosting Algorithm dalam memprediksi harga rumah, dengan membandingkan kedua model algoritma machine learning untuk mendapatkan model yang terbaik. 
+3. **Solusi 2 : Penerapan Hyperparameter dengan GridSearchCV**
+   Melakukan optimasi terhadap hyperparameter dengan GridSearchCV untuk meningkatkan akurasi prediksi dan mengurangi kesalahan prediksi maupun overfitting dalam pelatihan pertama.
+   
 ## Data Understanding
-Pada proyek ini, data yang digunakan adalah gambar daun tanaman kentang yang berasal dari dataset publik PlantVillage. Dataset ini tersedia secara bebas dan dapat diundul melalui [Kaggle - PlantVillage Dataset](https://www.kaggle.com/datasets/hafiznouman786/potato-plant-diseases-data). Dataset PlantVillage memiliki tiga label kelas yaitu :
-1. Potato___Early_Blight -> daun kentang yang terkena penyakit _Early Blight_ atau bercak daun kering.
-2. Potato___Late_Blight -> daun kentang yang terkena penyakit _Late Blight_ atau hawar daun.
-3. Potati___healthy -> daun kentang dalam kondisi sehat.
-**Struktur Dataset Mentah**
-```
-PlantVillage/
-├── Potato___Early_Blight/        # Kumpulan gambar penyakit early blight (mentah)
-├── Potato___Late_Blight/         # Kumpulan gambar penyakit late blight (mentah)
-└── Potato___Healthy/             # Kumpulan gambar daun kentang sehat (mentah)
-```
-
-**Jumlah Data Tiap Kelas (Sebelum Augmentasi untuk keperluan Balencing Data)**
-
-| Kelas           | Jumlah Gambar |
-|----------------|----------------|
-| Early Blight   | 1000           |
-| Late Blight    | 1000           |
-| Healthy        | 152            |
-| **Total**      | **2152**       |
-
-**Struktur Dataset Setelah diolah**
-```
-PlantVillage/
-├── Final_Potato/
-│   ├── augmented_train/              # Data pelatihan hasil augmentasi
-│   ├── test/                         # Data pengujian
-│   ├── train/                        # Data pelatihan asli
-│   └── val/                          # Data validasi
-├── Potato___Early_blight/           # Kumpulan gambar penyakit early blight (mentah)
-├── Potato___Late_blight/            # Kumpulan gambar penyakit late blight (mentah)
-└── Potato__healthy_augmented/       # Gambar daun kentang sehat (hasil augmentasi)
-```
+Pada proyek ini, data yang digunakan adalah _House House Prediction Dataset_ yang tersedia secara publik di[Kaggle](https://www.kaggle.com/datasets/zafarali27/house-price-prediction-dataset) Dengan informasi dataset sebagai berikut :
+1. Jumlah data : 2000 baris
+2. Jumlah fitur : 9 kolom (termasuk target)
+3. Tipe data : Numerik dan Kategorikal
+4. Target/Lable : Price (harga rumah)
 
 ### Variabel-variabel pada Potato Disease sebagai berikut :
-- Image Data : berupa matrix pixel dari gambar dengan dimensi umumnya 256x256@ atau resize sesuai dengan kebutuhan model
-- Label : nama kelas dari masing-masing gambar yang menunjukkan kondisi daun kentang (early_blight, late_blight, healthy).
-- Filename : nama file gambar, berguna untuk identifikasi dan mapping ke label.
+- Area : Luas bangunan rumah (dalam persegi) yang merupakan salah satu faktor paling penting dalam memprediksi harga.
+- Badrooms dan Bathrooms : Jumlah kamar (kamar tidur dan kamat mandi) dalam sebuah rumah sangat mempengaruhi nilainya. Rumah dengan lebih banyak kamar cenderung memiliki harga yang lebih tinggi.
+- Floors : Jumlah lantai pada rumah dapat menunjukkan bahwa rumah tersebut lebih besar atau mewah, sehingga berpotensi meningkatkan harganya.
+- Year Built : usia rumah dapat memepengaruhi kondisi dan nilainya. Rumah yang baru dibangun umumnya lebih mahal dibandingkan rumah yang lebih tua.
+- Location : Rumah yang berasa di lokasi strategis seperti pusat kota atau area urban cenderung memiliki harga lebih tinggi dibandingkan rumah di daerah pinggiran atau pedesaan.
+- Condition : Kondisi rumah sangat penting. Rumah yang terawat dengan baik (dalam kondisi "Excellent" atau "Good") akan memiliki harga jual lebih tinggi dibandingkan rumah dalam kondisi "Fiar" atau "Poor"
+- Garage : Ketersediaan garansi dapat meningkatkan harga rumah karena memberikan kenyamanan dan ruang tambahan
+- Price : Variabel target, yaitu harga jual rumah, yang digunakan untuk melatih model machine learning agar dapat memprediksi harga rumah berdasarkan fitur-fitur lainnya.
 
 ### Tahapan yang dilakukan untuk memahmi data 
 **EDA (_Exploratory Data Analysis_)**
