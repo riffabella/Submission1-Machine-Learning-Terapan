@@ -283,7 +283,7 @@ Sehingga Boosting (Algoritma Gradient Boosting) menunjukkan performa sedikit leb
 - MAE (Mean Absolute Error) : Boosting memiliki MAE sedikit lebih rendah, artinya prediksinya sedikit lebih dekat ke nilai sebenarnya dibanding RF.
 - R2 Score : Kedua model bernilai negatif, menunjukkan model tidak cocok dan lebih buruk dari rata-rata.
   
-Berdasarkan hasil evaluasi, **Algoritma Gradient Boosting ** sedikit lebih baik dalam MSE, dan MAE, keduanya masih buruk karena nilai R² negatif. Ini menunjukkan bahwa model belum berhasil memprediksi harga rumah secara efektif, dan perbaikan seperti feature engineering atau tuning lebih lanjut sangat disarankan.
+Berdasarkan hasil evaluasi, **Algoritma Gradient Boosting** sedikit lebih baik dalam MSE, dan MAE, keduanya masih buruk karena nilai R² negatif. Ini menunjukkan bahwa model belum berhasil memprediksi harga rumah secara efektif, dan perbaikan seperti feature engineering atau tuning lebih lanjut sangat disarankan.
 
 ## Referensi
 
