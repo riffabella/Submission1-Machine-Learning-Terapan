@@ -58,8 +58,10 @@ Pada proyek ini, data yang digunakan adalah _House Price Prediction Dataset_ yan
    ![Image](https://github.com/user-attachments/assets/d6e74a66-5954-4ac3-a528-96084721ae70)
    
 5. Menampilkan visualisasi berdasarkan fitur Numerik dan Kategorikal
+
 - Fitur Kategorikal
     - Fitur Location
+
 ```
 feature = categorical_features[0]
 count = House[feature].value_counts()
@@ -71,9 +73,13 @@ count.plot(kind='bar', title=feature);
 
 ![Image](https://github.com/user-attachments/assets/18166e0e-0051-43f7-8cdb-a1197f5bd8c3)
 
+
 Terdapat 4 kategori pada fitur Location, secara berurutan dari jumlah yang paling banyak yaitu: Downtown, Urban, Suburban, Rural. Dari data presentase dapat disimpulkan bahwa lebih dari 75% sampel merupakan rumah yang berada di lokasi Downtown, Urban, dan Suburban.
 
+
     - Fitur Condition
+
+
 ```
 feature = categorical_features[1]
 count = House[feature].value_counts()
@@ -82,11 +88,16 @@ df = pd.DataFrame({'jumlah sampel':count, 'persentase':percent.round(1)})
 print(df)
 count.plot(kind='bar', title=feature);
 ```
+
 ![Image](https://github.com/user-attachments/assets/c4e63a5c-399a-4bf8-a877-4053f538cb75)
+
 
 Terdapat 4 kategori pada fitur Condition, secara berurutan dari jumlah yang paling banyak yaitu Fair, Excellent, Poor, dan Good. Dengan mayoritas rumah dalam sampel memiliki kondisi menengah ke atas yaitu Fair (26%).
 
-     - Fitur Garage
+
+    - Fitur Garage
+
+
 ```
 feature = categorical_features[2]
 count = House[feature].value_counts()
@@ -95,6 +106,7 @@ df = pd.DataFrame({'jumlah sampel':count, 'persentase':percent.round(1)})
 print(df)
 count.plot(kind='bar', title=feature);
 ```
+
 ![Image](https://github.com/user-attachments/assets/13e2521b-7d8a-48ca-951e-6a503d5e6d82)
 
 ```
@@ -104,108 +116,116 @@ plt.title('Distribusi Garage')
 plt.ylabel('')  # Menghilangkan label default
 plt.show()
 ```
+
 ![Image](https://github.com/user-attachments/assets/6c26b9c0-064c-4189-93c4-c7483a1ed34d)
+
 
 Terdapat 2 kategori pada fitur Garage, secara berurutan dari jumlah yang paling banyak yaitu No, dan Yes. Dengan mayoritas rumah pada sampel tidak memiliki garansi didalamnya.
 
-   - Fitur Numerik
+
+- Fitur Numerik
      Terdiri dari fitur Id, Area, Bedrooms, Bathrooms, Floors, YearBuilt, dan Price
+
      
 ```
 House.hist(bins=50, figsize=(20,15))
 plt.show()
 ```
-![Image](https://github.com/user-attachments/assets/7831242b-4f5f-415e-bf33-606dca3e3dcb)
+
+![Image](https://github.com/user-attachments/assets/d90f886a-a817-4e2f-99ea-906f4efbdbad)
+
 
 ## Data Preparation
-- Data Balencing, dengan melakukan augmentasi pada data yang minoritas seperti kelas Potato_healthy agar seimbang dengan kelas lainnya. Diperlukan proses tersebut agar dapat memperbaiki kualitas distribusi data, dan mampu meningkatkan performa model terutama pada kelas minoritas.
-```
-datagen = ImageDataGenerator(
-    rescale=1./255,
-    validation_split=0.2,
-    horizontal_flip=True,
-    rotation_range=15,
-    zoom_range=0.1
-)
-```
-- Splitting Data, dengan membagi dataset menjadi tiga bagian menggunakan train_test_split, yaitu
-train 80%, validation 10% dan test 10% untuk dilakuakn training model.
-```
-# Split data: 80% train, 20% temp
-X = df['path']
-y = df['labels']
+- Melakukan **Encoding Fitur Kategori**, dengan mengubah data kategori menjadi bentuk numerik agar dapat diproses oleh algoritma machine learning. Metode Encoding yang digunakan adalah One-Hot Encoding, dengan membuat kolom baru untuk setiap nilai kategori dengan nilai biner.
 
-X_train, X_temp, y_train, y_temp = train_test_split(
-    X, y, test_size=0.2, stratify=y, random_state=300)
+```
+from sklearn.preprocessing import  OneHotEncoder
 
-# Bagi 20% temp menjadi 50:50 → 10% val, 10% test
-X_val, X_test, y_val, y_test = train_test_split(
-    X_temp, y_temp, test_size=0.5, stratify=y_temp, random_state=300)
+# Mengubah data kategorikal menjadi numerik
+House = pd.concat([House, pd.get_dummies(House['Location'], prefix='Location', dtype='int64')],axis=1)
+House = pd.concat([House, pd.get_dummies(House['Condition'], prefix='Condition',dtype='int64')],axis=1)
+House = pd.concat([House, pd.get_dummies(House['Garage'], prefix='Garage', dtype='int64')],axis=1)
+House.drop(['Location','Condition','Garage'], axis=1, inplace=True)
+House.head()
 ```
-- Resize dan Normalisasi, dengan melakukan rezising gambar menjadi (224,224) dan membagi piksel dengan 255.0
-```
-img = img.resize((224, 224))
-img = np.array(img)/255.0
-```
-- Data Augmentasi, digunakan untuk membuat objek augmentasi gambar secara real-time saat pelatihan model, sehingga akan memperbanyak dan memvariasikan data gambar secara otomatis. Dilakukan proses ini, agar model tidak overfitting, dan mampu melakukan generalisasi lebih baik.
-```
-augmentor = ImageDataGenerator(
-    rotation_range=15,
-    zoom_range=0.1,
-    width_shift_range=0.05,
-    height_shift_range=0.05,
-    shear_range=0.05,
-    horizontal_flip=True,
-    fill_mode="nearest"
-)
 
-AUGMENT_PER_IMAGE = 3
-```
+| Id | Area | Bedrooms | Bathrooms | Floors | YearBuilt |  Price  | Location_Downtown | Location_Rural | Location_Suburban | Location_Urban | Condition_Excellent | Condition_Fair | Condition_Good | Condition_Poor | Garage_No | Garage_Yes |
+|----|------|----------|-----------|--------|------------|---------|-------------------|----------------|-------------------|----------------|----------------------|----------------|----------------|----------------|-----------|------------|
+|  1 | 1360 |        5 |         4 |      3 |       1970 | 149919  |                 1 |              0 |                 0 |              0 |                    1 |              0 |              0 |              0 |         1 |          0 |
+|  2 | 4272 |        5 |         4 |      3 |       1958 | 424998  |                 1 |              0 |                 0 |              0 |                    1 |              0 |              0 |              0 |         1 |          0 |
+|  3 | 3592 |        2 |         2 |      3 |       1938 | 266746  |                 1 |              0 |                 0 |              0 |                    0 |              0 |              1 |              0 |         1 |          0 |
+|  4 |  966 |        4 |         2 |      2 |       1902 | 244020  |                 0 |              0 |                 1 |              0 |                    0 |              1 |              0 |              0 |         0 |          1 |
+|  5 | 4926 |        1 |         4 |      2 |       1975 | 636056  |                 1 |              0 |                 0 |              0 |                    0 |              1 |              0 |              0 |         0 |          1 |
+
+
+- Splitting Data, dengan membagi dataset menjadi dua bagian menggunakan ```train_test_split```  yaitu 80% untuk data pelatihan dan 20% untuk data pengujian.
+
+```X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)```
+
+![Image](https://github.com/user-attachments/assets/8146cd94-4176-480b-a6e6-a13987ffd31c)
+
+- Melakukan **Standarisasi**, dengan mengubah nilai rata-rata (mean) menjadi 0 dan nilai standar deviasi menjadi 1. Yang digunakan untuk membuat semua fitur berada dalam skala yang sama, dan menghindari bias dalam perhitungan jarak atau bobot. Dengan menerapkan StandarScaler pada data sebagai berikut : ```scaler = StandardScaler()```
+
+![Image](https://github.com/user-attachments/assets/d4992f5a-c736-49a1-b630-0ed4ec0d0439)
+
 ## Modeling
-Dalam proyek ini, menggunakan dua algoritma untuk mendeteksi penyakit kentang berdasarkan daun, dengan mengklasifikasikan kondisi daun kentang menjadi tiga kelas, yaitu **Early blight**, **Late blight**, dan **Healthy**. Untuk menyelesaikan permasalahan ini, digunakan pendekatan transfer learning dengan memanfaatkan dua arsitektur deep learning populer, yaitu **DenseNet201** dan **MobileNetV2** yang telah dilatih sebelumnya pada dataset ImageNet.
+Dalam proyek ini, digunakan dua algoritma untuk memprediksi harga rumah berdasarkan fitur numerik dan kategorikal, seperti luas area, jumlah kamar, lokasi, kondisi bangunan, jumlah lantai, ketersediaan garasi, dan tahun pembangunan. Untuk menyelesaikan permasalahan ini, digunakan dua algoritma machine learning, yaitu Random Forest, dan Boosting Algorithm, yang dievaluasi untuk membandingkan performa prediksi harga secara akurat.
 
 **Tahapan Pemodelan**
 1. Pra-Pemrosesan Data
-- Semua gambar diubah ukurannya menjadi `224x224`.
-- Augmentasi citra dilakukan untuk meningkatkan variasi data.
-- Data dibagi menjadi tiga bagian: train, validation, dan test.
+- _Encoding Fitur Kategorikal_ : Menggunakan ```pd.get_dummies()``` untuk mengubah fitur kategorikal menjadi numerik.
+- _Standarisasi Fitur Numerik_: Menggunakan ```StandardScaler``` untuk menstandarisasi fitur numerik agar memiliki mean 0 dan standar deviasi 1.
+2.Pembagian Data, data dibagi menjadi data latih dan data uji dengan rasio 80:20 menggunakan ```train_test_split```
+3. Pelatihan Model, masing-masing algoritma dilatih menggunakan data latih dan dievaluasi menggunakan data uji.
+  
+**Parameter yang Digunakan**
+- **Random Forest:**
+  - ```n_estimators=50``` : Jumlah pohon dalam hutan.
+  - ```max_depth=8``` : Kedalaman maksimum setiap pohon.
+  - ```min_samples_split=10``` : Jumlah minimum sampel yang diperlukan untuk membagi node internal.
+  - ```min_samples_leaf=6``` : Jumlah minimum sampel yang diperlukan pada daun pohon.
+  - ```random_state=55``` : digunakan untuk mengontrol random number generator yang digunakan. 
+  - ```n_jobs=-1``` : jumlah job (pekerjaan) yang digunakan secara paralel. Ia merupakan komponen untuk mengontrol thread atau proses yang berjalan secara paralel.
+- **Gradient Boosting:**
+  - ```n_estimators=0.05``` : Jumlah tahap boosting yang dilakukan
+  - ```learning_rate=100``` : Kontribusi setiap pohon dalam ensemble.
+  - ```max_depth=3``` : Kedalaman maksimum pohon individu.
+  - ```random_state=55``` : digunakan untuk mengontrol random number generator yang digunakan.
 
-2. Model yang Digunakan
-**DenseNet201**
-- Pretrained: `ImageNet`
-- Layer tambahan:
-  - Conv2D + MaxPooling2D
-  - Flatten → Dropout(0.5)
-  - Dense(128) → Dense(64) → Dense(3, softmax)
-- Optimizer: `Adam(1e-4)`
-- Callbacks:
-  - `EarlyStopping(patience=5)`
-  - `ReduceLROnPlateau(factor=0.5, patience=2)`
-- Fine-tuning: Unfreeze 30 layer terakhir
+- **Tuning Hyperarameter:**
+  - Random Forest :
+    
+```
+# Definisikan parameter grid untuk Random Forest
+rf_param_grid = {
+    'n_estimators': [50, 100, 200],
+    'max_depth': [5, 6, 8, 10],
+    'min_samples_split': [10, 15, 20],
+    'min_samples_leaf': [5, 8, 10]
+}    
+```
+    
+  - Gradient Boosting :
+    
+```
+# Definisikan parameter grid untuk Gradient Boosting
+gb_param_grid = {
+    'n_estimators': [50, 100, 200],
+    'max_depth': [3, 4, 5],
+    'min_samples_split': [10, 15, 20],
+    'min_samples_leaf': [5, 8, 10],
+    'learning_rate': [0.01, 0.1, 0.2]
+}
+```
 
-**MobileNetV2**
-- Pretrained: `ImageNet`
-- Layer tambahan:
-  - Conv2D → GlobalAveragePooling2D
-  - Dense(128, L2) + Dropout(0.5)
-  - Dense(64) + Dropout(0.4)
-  - Dense(3, softmax)
-- Optimizer:
-  - Awal: `Adam(1e-4)`
-  - Fine-tuning: `Adam(1e-5)`
-- Callbacks:
-  - `EarlyStopping(patience=5)`
-  - `ReduceLROnPlateau(factor=0.2, patience=3)`
-- Fine-tuning: Unfreeze 30 layer terakhir
 
-3. Perbandingan Model
+**Perbandingan Model**
+### Kelebihan dan Kekurangan dari Setiap Algoritma
 
-| Kriteria         | DenseNet201                      | MobileNetV2                      |
-|------------------|----------------------------------|----------------------------------|
-| Akurasi Latih     | Tinggi (mendekati 100%)          | Tinggi                           |
-| Akurasi Validasi  | Fluktuatif, indikasi overfitting | Stabil dan konsisten             |
-| Kompleksitas      | Berat dan lambat                | Ringan dan cepat                 |
-| Ukuran Model      | Besar                            | Kecil dan efisien  
+| Algoritma           | Kelebihan                                                                                                              | Kekurangan                                                                                          |
+|---------------------|------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| **Random Forest**   | - Mengurangi overfitting dibandingkan pohon tunggal  <br> - Menangani fitur hilang dan variabel kategorikal  <br> - Estimasi fitur penting | - Kurang interpretatif  <br> - Konsumsi memori tinggi  <br> - Potensi overfit jika terlalu banyak pohon |
+| **Gradient Boosting** | - Akurasi prediksi tinggi  <br> - Fleksibel terhadap berbagai fungsi loss  <br> - Cocok untuk data kompleks            | - Rentan overfitting tanpa tuning  <br> - Latihannya lebih lambat  <br> - Perlu tuning parameter yang teliti |
 
 
 4. Model Terbaik
