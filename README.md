@@ -171,16 +171,14 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 ![Image](https://github.com/user-attachments/assets/d4992f5a-c736-49a1-b630-0ed4ec0d0439)
 
 ## Modeling
-Dalam proyek ini, digunakan dua algoritma untuk memprediksi harga rumah berdasarkan fitur numerik dan kategorikal, seperti luas area, jumlah kamar, lokasi, kondisi bangunan, jumlah lantai, ketersediaan garasi, dan tahun pembangunan. Untuk menyelesaikan permasalahan ini, digunakan dua algoritma machine learning, yaitu Random Forest, dan Boosting Algorithm, yang dievaluasi untuk membandingkan performa prediksi harga secara akurat.
+Dalam proyek ini, digunakan dua algoritma untuk memprediksi harga rumah berdasarkan fitur numerik dan kategorikal, seperti luas area, jumlah kamar, lokasi, kondisi bangunan, jumlah lantai, ketersediaan garasi, dan tahun pembangunan. Untuk menyelesaikan permasalahan ini, digunakan dua algoritma machine learning, yaitu Random Forest, dan Gradient Boosting, yang dievaluasi untuk membandingkan performa prediksi harga secara akurat.
 
 **Tahapan Pemodelan**
-1. Pra-Pemrosesan Data
-- _Encoding Fitur Kategorikal_ : Menggunakan ```pd.get_dummies()``` untuk mengubah fitur kategorikal menjadi numerik.
-- _Standarisasi Fitur Numerik_: Menggunakan ```StandardScaler``` untuk menstandarisasi fitur numerik agar memiliki mean 0 dan standar deviasi 1.
-
-2. Pembagian Data, data dibagi menjadi data latih dan data uji dengan rasio 80:20 menggunakan ```train_test_split```
-
-3. Pelatihan Model, masing-masing algoritma dilatih menggunakan data latih dan dievaluasi menggunakan data uji.
+1. Mempersiapkan dataframe untuk analisis model, yang berisi index = train_mse, dan test_mse untuk metrix evaluasi pelatihan pertama, dan berisi columns algoritma RandomForest dan Gradient Boosting
+   
+2. Membuat model:
+   - Pada model Random Forest, model akan membuat 50 pohon keputusan, jumlah ini dipilih untuk menjaga keseimbangan antara akurasi dan kecepatan. Setiap pohon akan dibatasi hingga kedalaman 8 tingkat, ini mencegah model menjadi teralu rumit dan mengurangi resiko overfitting. Kemudian setiap cabang pohon harus memiliki minimal 10 data untuk bisa dibagi lagi, sehingga membantu mencegah pembagian yang terlalu kecil. Setelah itu setiap daun (akhir pohon), harus memiliki minimal 6 data, untuk memastikan prediksi lebih stabil. Kemudian menerapakan random state=55 untuk memastikan hasil model selalu sama setiap kali dijalankan, sehingga hasilnya dapat diulang.
+   - Pada model Gradient Boosting, model ini disetting dengan menggunakan 100 pohon keputusan untuk membuat prediksi, dengan setiap pohon keputusan dibatasi hingga 3 tingkat kedalaman, agar model tidak terlalu rumit, kemudian dilanjutkan menggunakan random_state=55, untuk memastikan hasil model konsisten setiap kali dijalankan.
   
 **Parameter yang Digunakan**
 - **Random Forest:**
