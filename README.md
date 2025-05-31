@@ -34,6 +34,7 @@ Pada proyek ini, data yang digunakan adalah _House Price Prediction Dataset_ yan
 4. Target/Lable : Price (harga rumah)
 
 ### Variabel-variabel House Price Prediction pada sebagai berikut :
+- Id : Merupakan identifier unik untuk setiap entri dalam dataset. Kolom ini digunakan hanya sebagai penanda atau indeks untuk membedakan setiap rumah, dan tidak memiliki pengaruh langsung terhadap prediksi harga.
 - Area : Luas bangunan rumah (dalam persegi) yang merupakan salah satu faktor paling penting dalam memprediksi harga.
 - Badrooms dan Bathrooms : Jumlah kamar (kamar tidur dan kamat mandi) dalam sebuah rumah sangat mempengaruhi nilainya. Rumah dengan lebih banyak kamar cenderung memiliki harga yang lebih tinggi.
 - Floors : Jumlah lantai pada rumah dapat menunjukkan bahwa rumah tersebut lebih besar atau mewah, sehingga berpotensi meningkatkan harganya.
@@ -177,8 +178,8 @@ Dalam proyek ini, digunakan dua algoritma untuk memprediksi harga rumah berdasar
 1. Mempersiapkan dataframe untuk analisis model, yang berisi index = train_mse, dan test_mse untuk metrix evaluasi pelatihan pertama, dan berisi columns algoritma RandomForest dan Gradient Boosting
    
 2. Membuat model:
-   - Pada model **Random Forest**, model akan membuat 50 pohon keputusan, jumlah ini dipilih untuk menjaga keseimbangan antara akurasi dan kecepatan. Setiap pohon akan dibatasi hingga kedalaman 8 tingkat, ini mencegah model menjadi teralu rumit dan mengurangi resiko overfitting. Kemudian setiap cabang pohon harus memiliki minimal 10 data untuk bisa dibagi lagi, sehingga membantu mencegah pembagian yang terlalu kecil. Setelah itu setiap daun (akhir pohon), harus memiliki minimal 6 data, untuk memastikan prediksi lebih stabil. Kemudian menerapakan random state=55 untuk memastikan hasil model selalu sama setiap kali dijalankan, sehingga hasilnya dapat diulang.
-   - Pada model **Gradient Boosting**, model ini disetting dengan menggunakan 100 pohon keputusan untuk membuat prediksi, dengan setiap pohon keputusan dibatasi hingga 3 tingkat kedalaman, agar model tidak terlalu rumit, kemudian dilanjutkan menggunakan random_state=55, untuk memastikan hasil model konsisten setiap kali dijalankan.
+   - Pada model **Random Forest**, algoritma ini menggunakan pendekatan ensemble learning dengan membangun beberapa pohon keputusan secara paralel (dalam hal ini sebanyak 50 pohon). Model ini menerapkan teknik bootstrap aggregating (bagging), di mana setiap pohon dilatih pada subset data yang dipilih secara acak dengan pengembalian dari dataset asli. Selain itu, fitur yang digunakan untuk split pada tiap node juga dipilih secara acak, yang membantu mengurangi korelasi antar pohon dan meningkatkan generalisasi.
+   - Pada model **Gradient Boosting**, pendekatannya bersifat sekuensial, di mana setiap pohon keputusan baru dibangun untuk memperbaiki kesalahan dari prediksi sebelumnya. Model ini secara bertahap meminimalkan error dengan menyesuaikan bobot terhadap kesalahan yang terjadi pada tahap sebelumnya. Dalam konfigurasi ini, digunakan 100 pohon keputusan dengan kedalaman maksimal 3 tingkat untuk menjaga agar model tetap ringan dan tidak overfitting. Sama seperti Random Forest, random_state=55 juga digunakan agar hasil model konsisten setiap kali dijalankan.
   
 **Parameter yang Digunakan**
 - **Random Forest:**
@@ -189,8 +190,8 @@ Dalam proyek ini, digunakan dua algoritma untuk memprediksi harga rumah berdasar
   - ```random_state=55``` : digunakan untuk mengontrol random number generator yang digunakan. 
   - ```n_jobs=-1``` : jumlah job (pekerjaan) yang digunakan secara paralel. Ia merupakan komponen untuk mengontrol thread atau proses yang berjalan secara paralel.
 - **Gradient Boosting:**
-  - ```n_estimators=0.05``` : Jumlah tahap boosting yang dilakukan
-  - ```learning_rate=100``` : Kontribusi setiap pohon dalam ensemble.
+  - ```n_estimators=100``` : Jumlah tahap boosting yang dilakukan
+  - ```learning_rate=0.05``` : Kontribusi setiap pohon dalam ensemble.
   - ```max_depth=3``` : Kedalaman maksimum pohon individu.
   - ```random_state=55``` : digunakan untuk mengontrol random number generator yang digunakan.
 
